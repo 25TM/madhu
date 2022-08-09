@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailInfo;
+use App\Models\User;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 class uploadFile extends Controller
 {
     public function store(Request $request)
@@ -28,7 +31,16 @@ class uploadFile extends Controller
 
         
     }
-
+    public function sendEmail(Request $request){
+        // $emails = EmailInfo::all()->pluck('email')->toArray();
+        // $users = User::all();
+        $message=$request->message;
+        $emails = User::all()->pluck('email')->toArray();
+        // send welcome email to all emails in the database
+        foreach ($emails as $email) {
+            Mail::to($email)->send(new WelcomeMail('John Doe'));
+        }
+    }
     public function show(){
         $files = scandir(public_path().'/files/');
         $files = array_diff($files,array('.','..'));

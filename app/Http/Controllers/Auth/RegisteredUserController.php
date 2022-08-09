@@ -48,14 +48,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // event(new Registered($user));
+        event(new Registered($user));
         // all emails in the database
         $emails = User::all()->pluck('email')->toArray();
-        // send welcome email to all emails in the database
+        // // send welcome email to all emails in the database
         foreach ($emails as $email) {
-            Mail::to($email)->send(new WelcomeMail($user->name));
-        }
-        dispatch(new VerifyEmail($user));
+            dispatch(new VerifyEmail($user));
+                }
+            Mail::to('t@t.t')->send(new WelcomeMail($user));
 
         Auth::login($user);
 

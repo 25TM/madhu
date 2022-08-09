@@ -10,23 +10,22 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 class VerifyEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $details;
-
+    protected $user;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($user)
     {
-        $this->details = $details;
+        $this->user = $user;
     }
-
     /**
      * Execute the job.
      *
@@ -35,5 +34,7 @@ class VerifyEmail implements ShouldQueue
     public function handle()
     {
         Mail::to($this->details['email'])->send(new WelcomeMail($this->details['name']));
+        
     }
+
 }

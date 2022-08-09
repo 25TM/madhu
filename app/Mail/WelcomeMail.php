@@ -11,8 +11,7 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $name;
-
+    public $name;
     /**
      * Create a new message instance.
      *
@@ -22,7 +21,6 @@ class WelcomeMail extends Mailable
     {
         $this->name = $name;
     }
-
     /**
      * Build the message.
      *
@@ -34,4 +32,5 @@ class WelcomeMail extends Mailable
             'name' => $this->name,
         ]);
     }
+
 }
