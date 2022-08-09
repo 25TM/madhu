@@ -50,12 +50,17 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
         // all emails in the database
-        $emails = User::all()->pluck('email')->toArray();
         // // send welcome email to all emails in the database
-        foreach ($emails as $email) {
-            dispatch(new VerifyEmail($user));
-                }
-            Mail::to('t@t.t')->send(new WelcomeMail($user));
+        // $emails = User::all()->pluck('email')->toArray();
+        // dd($emails);
+        // foreach($emails as $email){
+            //
+            // dispatch(new VerifyEmail($email));
+            // Mail::to($email)->send(new WelcomeMail($user->name));
+
+        // }
+        
+            // Mail::to($emails)->send(new WelcomeMail($user));
 
         Auth::login($user);
 

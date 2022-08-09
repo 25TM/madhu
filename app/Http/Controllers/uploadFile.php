@@ -7,6 +7,7 @@ use App\Models\EmailInfo;
 use App\Models\User;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\VerifyEmail;
 class uploadFile extends Controller
 {
     public function store(Request $request)
@@ -32,14 +33,16 @@ class uploadFile extends Controller
         
     }
     public function sendEmail(Request $request){
-        // $emails = EmailInfo::all()->pluck('email')->toArray();
-        // $users = User::all();
-        $message=$request->message;
+        $emailContent = $request->emails;
+        
+        
         $emails = User::all()->pluck('email')->toArray();
-        // send welcome email to all emails in the database
-        foreach ($emails as $email) {
-            Mail::to($email)->send(new WelcomeMail('John Doe'));
+        foreach($emails as $email){
+            dispatch(new VerifyEmail($email,$emailContent));
         }
+        session()->flash('success','Email Sent Successfully');
+        return redirect()->route('admin');
+
     }
     public function show(){
         $files = scandir(public_path().'/files/');

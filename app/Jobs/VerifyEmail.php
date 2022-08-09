@@ -17,15 +17,19 @@ class VerifyEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user;
+    protected $email_content;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $email_content)
     {
         $this->user = $user;
+        $this->email_content = $email_content;
     }
+   
+  
     /**
      * Execute the job.
      *

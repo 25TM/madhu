@@ -25,5 +25,6 @@ Route::get('/admin', function () {
 })->middleware(['auth'])->name('admin');
 
 Route::post('upload-file',[uploadFile::class,'store'])->name('admin.upload.csv');
+Route::post('send-email',[uploadFile::class,'sendEmail'])->name('admin.send.mail');
 
 require __DIR__.'/auth.php';

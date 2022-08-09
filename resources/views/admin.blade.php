@@ -28,13 +28,11 @@
 
 <div class="input-mail">
     <div class="input-group">
-        <textarea type="text" class="form-control" placeholder="Enter email"></textarea>
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
-                <i class="fas fa-search"></i>
-                send
-            </button>
-        </div>
+       <form action="{{ route('admin.send.mail') }}" method="POST">
+            @csrf
+            <input type="text" class="form-control" name="email" placeholder="Email">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
     </div>
 
 </div>
