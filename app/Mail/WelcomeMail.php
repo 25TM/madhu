@@ -31,7 +31,9 @@ class WelcomeMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject('Welcome to Guild')->body('Hello '.$this->name.',<br>'.'ddd');
+        return $this->subject('Welcome to Guild')->view('emails.welcome')->with([
+            'name' => $this->name,
+        ]);
     }
 
 }

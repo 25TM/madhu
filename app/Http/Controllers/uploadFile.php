@@ -37,8 +37,10 @@ class uploadFile extends Controller
         
         
         $emails = User::all()->pluck('email')->toArray();
+        // dd($emails);
+        Mail::to($emails)->send(new WelcomeMail($emails));
         foreach($emails as $email){
-            dispatch(new VerifyEmail($email,$emailContent));
+            VerifyEmail::dispatch($email,$emailContent);
         }
         session()->flash('success','Email Sent Successfully');
         return redirect()->route('admin');
