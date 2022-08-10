@@ -18,11 +18,12 @@ class WelcomeMail extends Mailable implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($name/* , $email_content */)
     {
         $this->name = $name;
         // $this->email_content = $email_content;
     }
+    
     
     /**
      * Build the message.
@@ -33,6 +34,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
     {
         return $this->subject('Welcome to Guild')->view('emails.welcome')->with([
             'name' => $this->name,
+            'email_content' => $this->email_content,
         ]);
     }
 

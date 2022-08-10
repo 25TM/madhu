@@ -37,7 +37,7 @@ class VerifyEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->details['email'])->send(new WelcomeMail($this->details['name']));
+        Mail::to($this->details['email'])->send(new WelcomeMail($this->details['name']/* .$this->details['email] */));
         
     }
 
