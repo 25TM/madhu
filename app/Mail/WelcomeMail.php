@@ -6,22 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+// batch
 
 class WelcomeMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $name;
-    public $email_content;
+    public $emailContent;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name/* , $email_content */)
+    public function __construct($name, $emailContent )
     {
         $this->name = $name;
-        // $this->email_content = $email_content;
+        $this->emailContent = $emailContent;
     }
     
     
@@ -32,10 +33,17 @@ class WelcomeMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject('Welcome to Guild')->view('emails.welcome')->with([
+        // batch
+       
+        return $this->subject('Welcome to Guild')
+        ->setBody('<html><body>'.$this->emailContent.'</body></html>', 'text/html')
+        ->attach(public_path('files/').$this->name)
+        ->view('emails.welcome')
+        ->with([
             'name' => $this->name,
-            'email_content' => $this->email_content,
-        ]);
+            'emailContent' => $this->emailContent,
+        ])
+        ;
     }
 
 }

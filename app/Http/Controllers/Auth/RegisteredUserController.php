@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
 
         // }
         
-            Mail::to($user->email)->send(new WelcomeMail($user));
+            // Mail::to($user->email)->send(new WelcomeMail($user));
 
         Auth::login($user);
 

@@ -31,6 +31,8 @@
        <form action="{{ route('admin.send.mail') }}" method="POST">
             @csrf
             <input type="text" class="form-control" name="email" placeholder="Email">
+            {{-- input file --}}
+            <input type="file" class="form-control-file" id="csv_file" name="csv_file">
             <button type="submit" class="btn btn-primary">Send</button>
         </form>
     </div>
