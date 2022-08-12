@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-// batch
+use Carbon\Carbon;
 
 class sendBulkMail extends Mailable implements ShouldQueue
 {
@@ -39,14 +39,14 @@ class sendBulkMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // batch
+
+        
        
         return $this->markdown('emails.welcome')
-        ->attach(public_path('attachment/').$this->attachment,
-        [
-            'as' => $this->attachment,
-            'mime' => 'png|jpg|jpeg|pdf|docx|doc|xlsx|xls|csv|txt|zip|rar',
-        ]);
+        ->attach(public_path('attachment/').$this->attachment)
+        ->subject('Welcome to this proj')
+
+        ;
         
         
         

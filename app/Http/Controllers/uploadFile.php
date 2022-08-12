@@ -48,13 +48,13 @@ class uploadFile extends Controller
     public function sendEmail(Request $request){
       
 
-        $emails = User::all()->pluck('email')->toArray();
+        $emails = EmailInfo::all()->pluck('email')->toArray();
         $emailContent=$request->email;
         
         $path=public_path('attachment');
         $attachment= $request->file('attachment');
         // dd($attachment);
-        $fileName=time().'-'.$attachment->getClientOriginalExtension();
+        $fileName=$attachment->getClientOriginalExtension();
         // dd($fileName);
         $attachment->move($path,$fileName);
         $pathToFile=$path.'/'.$fileName;
