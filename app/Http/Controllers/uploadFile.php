@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\VerifyEmail;
-// use Spatie\SimpleExcel\SimpleExcelReader;
+use Illuminate\Support\Facades\DB;
 class uploadFile extends Controller
 {
     public function store(Request $request)
@@ -37,36 +37,51 @@ class uploadFile extends Controller
             $emailInfo->email = $email;
             $emailInfo->save();
         }
+    
+            DB::table('email_infos')->where('id', '=', 1)->delete();
+           
 
         
-        return redirect()->route('admin')->with('success', 'File Uploaded successfully');
-
-
-
-         
-         
-
-
-         
-
-
-
-
-        
+        return redirect()->route('admin')->with('success', 'File Uploaded successfully');   
     }
+
     public function sendEmail(Request $request){
-        $emailContent = $request->email;
-        $attachement= $request->file('file');
-        // dd($emailContent);
+      
+
         $emails = EmailInfo::all()->pluck('email')->toArray();
-        // attach mail
+        $emailContent=$request->email;
+        // $attachment = $request->file('csv_file')->getClientOriginalName();
+
+        // dd($attachment);
+        // dd($emailContent);
+
+        // foreach($emails as $email){
+        //     $this->dispatch(new VerifyEmail($email));
+        // }
        
-        Mail::to($emails)->send(new WelcomeMail(
-            $emails,
-          $emailContent
-        ));
+        // validate email
+        $valid_emails = [];
+        foreach($emails as $email){
+            if(filter_var($email, FILTER_VALIDATE_EMAIL)){
+                $valid_emails[] = $email;
+            }
+        }
+        // dd($valid_emails);
+        // send email
+        foreach($valid_emails as $email){
+            $this->dispatch(new VerifyEmail($email,
+            $emailContent
+            ));
+        }
         
+
+        // Mail::to($valid_emails)->send(new WelcomeMail(
+        //     $emails,
+        // //   $emailContent
+        // ));
+  
         
+      
 
 
         // dd($emails);
@@ -78,10 +93,11 @@ class uploadFile extends Controller
         return redirect()->route('admin');
 
     }
-    public function show(){
-        $files = scandir(public_path().'/files/');
-        $files = array_diff($files,array('.','..'));
-        return view('admin',compact('files'));
+    public function seeEmail(){
+        $emails=EmailInfo::orderBy('id','desc')->get();
+        return view('view-email',compact('emails'));
     }
+
+
 
 }

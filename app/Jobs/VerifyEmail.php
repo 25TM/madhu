@@ -16,29 +16,27 @@ class VerifyEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user;
-    protected $email_content;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $email_content)
+    public $email;
+    public $emailContent;
+    public function __construct($email,
+    $emailContent
+    )
     {
-        $this->user = $user;
-        $this->email_content = $email_content;
+        $this->email = $email;
+        $this->emailContent = $emailContent;
     }
-   
-  
     /**
      * Execute the job.
      *
      * @return void
      */
-    public function handle()
-    {
-        Mail::to($this->details['email'])->send(new WelcomeMail($this->details['name']/* .$this->details['email] */));
-        
+    public function handle(){
+        Mail::to($this->email)->send(new WelcomeMail($this->email, $this->emailContent));
     }
 
 }

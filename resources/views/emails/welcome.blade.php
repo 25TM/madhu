@@ -1,5 +1,6 @@
-<body>
-    {{-- upload csv file --}}
-    {{-- {{$emailContent}} --}}
-    fff
-</body>
+@component('mail::message')
+    
+{{$emailContent}}
+{{-- upload csv file --}}
+fff
+@endcomponent

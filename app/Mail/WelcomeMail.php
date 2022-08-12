@@ -14,12 +14,15 @@ class WelcomeMail extends Mailable implements ShouldQueue
 
     public $name;
     public $emailContent;
+    // public $attachement='';
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $emailContent )
+    public function __construct($name, 
+    $emailContent 
+    )
     {
         $this->name = $name;
         $this->emailContent = $emailContent;
@@ -35,13 +38,10 @@ class WelcomeMail extends Mailable implements ShouldQueue
     {
         // batch
        
-        return $this->subject('Welcome to Guild')
-        ->setBody('<html><body>'.$this->emailContent.'</body></html>', 'text/html')
-        ->attach(public_path('files/').$this->name)
-        ->view('emails.welcome')
-        ->with([
-            'name' => $this->name,
-            'emailContent' => $this->emailContent,
+        return $this->view('emails.welcome')
+        ->attach(public_path('/attachment/').$this->attachment, [
+            'as' => $this->attachment,
+            'mime' => 'application/pdf',
         ])
         ;
     }
