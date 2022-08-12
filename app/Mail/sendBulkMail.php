@@ -8,24 +8,27 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 // batch
 
-class WelcomeMail extends Mailable implements ShouldQueue
+class sendBulkMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $name;
     public $emailContent;
-    // public $attachement='';
+    public $attachment;
     /**
      * Create a new message instance.
      *
      * @return void
      */
     public function __construct($name, 
-    $emailContent 
+    $emailContent,
+    $attachment
     )
     {
         $this->name = $name;
         $this->emailContent = $emailContent;
+        // (isset($attachement)) ? $this->attachement = $attachement : $this->attachement = null;
+        $this->attachement = $attachment;
     }
     
     
@@ -38,12 +41,15 @@ class WelcomeMail extends Mailable implements ShouldQueue
     {
         // batch
        
-        return $this->view('emails.welcome')
-        ->attach(public_path('/attachment/').$this->attachment, [
+        return $this->markdown('emails.welcome')
+        ->attach(public_path('attachment/').$this->attachment,
+        [
             'as' => $this->attachment,
-            'mime' => 'application/pdf',
-        ])
-        ;
+            'mime' => 'png|jpg|jpeg|pdf|docx|doc|xlsx|xls|csv|txt|zip|rar',
+        ]);
+        
+        
+        
     }
 
 }

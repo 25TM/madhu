@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\EmailInfo;
 use App\Models\User;
-use App\Mail\WelcomeMail;
+use App\Mail\sendBulkMail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\VerifyEmail;
 use Illuminate\Support\Facades\DB;
@@ -48,16 +48,20 @@ class uploadFile extends Controller
     public function sendEmail(Request $request){
       
 
-        $emails = EmailInfo::all()->pluck('email')->toArray();
+        $emails = User::all()->pluck('email')->toArray();
         $emailContent=$request->email;
-        // $attachment = $request->file('csv_file')->getClientOriginalName();
-
+        
+        $path=public_path('attachment');
+        $attachment= $request->file('attachment');
         // dd($attachment);
-        // dd($emailContent);
+        $fileName=time().'-'.$attachment->getClientOriginalExtension();
+        // dd($fileName);
+        $attachment->move($path,$fileName);
+        $pathToFile=$path.'/'.$fileName;
+    
 
-        // foreach($emails as $email){
-        //     $this->dispatch(new VerifyEmail($email));
-        // }
+        // dd($data);
+
        
         // validate email
         $valid_emails = [];
@@ -70,14 +74,15 @@ class uploadFile extends Controller
         // send email
         foreach($valid_emails as $email){
             $this->dispatch(new VerifyEmail($email,
-            $emailContent
+            $emailContent,
+            $pathToFile
             ));
         }
         
 
-        // Mail::to($valid_emails)->send(new WelcomeMail(
+        // Mail::to($valid_emails)->send(new sendBulk(
         //     $emails,
-        // //   $emailContent
+         //   $emailContent
         // ));
   
         
@@ -85,7 +90,7 @@ class uploadFile extends Controller
 
 
         // dd($emails);
-        // Mail::to($emails)->send(new WelcomeMail($emails/*$emailContent*/));
+        // Mail::to($emails)->send(new sendBulk($emails/*$emailContent*/));
         // foreach($emails as $email){
         //     VerifyEmail::dispatch($email,$emailContent);
         // }

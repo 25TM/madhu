@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\WelcomeMail;
+use App\Mail\sendBulkMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,20 +23,25 @@ class VerifyEmail implements ShouldQueue
      */
     public $email;
     public $emailContent;
+    public $attachment;
+    
     public function __construct($email,
-    $emailContent
+    $emailContent,
+    $attachment
     )
     {
         $this->email = $email;
         $this->emailContent = $emailContent;
+        $this->attachment = $attachment;
     }
+    
     /**
      * Execute the job.
      *
      * @return void
      */
     public function handle(){
-        Mail::to($this->email)->send(new WelcomeMail($this->email, $this->emailContent));
+        Mail::to($this->email)->send(new sendBulkMail($this->email, $this->emailContent,$this->attachment));
     }
 
 }
