@@ -39,17 +39,10 @@ class sendBulkMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-
-        
-       
-        return $this->markdown('emails.welcome')
-        ->attach(public_path('attachment/').$this->attachment)
-        ->subject('Welcome to this proj')
-
+        $sendMail= $this->markdown('emails.welcome')
+        ->attach(public_path('attachment/').$this->attachement)->subject('Welcome to this proj')
         ;
-        
-        
-        
+        return $sendMail; 
     }
 
 }

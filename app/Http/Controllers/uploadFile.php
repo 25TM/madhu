@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,7 +12,6 @@ class uploadFile extends Controller
 {
     public function store(Request $request)
     {
-        // // dd('ff');
         // $request->validate([
         //     'file' => 'required|mimes:csv,txt',
         // ]);
@@ -58,9 +56,9 @@ class uploadFile extends Controller
         // dd($fileName);
         $attachment->move($path,$fileName);
         $pathToFile=$path.'/'.$fileName;
-    
+        
+        
 
-        // dd($data);
 
        
         // validate email

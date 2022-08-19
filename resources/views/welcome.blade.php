@@ -39,7 +39,7 @@
                 {{-- see all mails --}}
                 <a href="{{ route('admin.see.mail') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">See all mails</a>
                 {{-- goto what u came for --}}
-                <hr><a href="{{ route('admin') }}" class="text-sm text-gray-700 dark:text-gray-500 underline display:block">Upload CSV File</a>
+                |<br><a href="{{ route('admin') }}" class="text-sm text-gray-700 dark:text-gray-500 underline display:block">Upload CSV File</a>
                 </div>
             </div>
         </div>
