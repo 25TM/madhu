@@ -46,16 +46,24 @@ class uploadFile extends Controller
     public function sendEmail(Request $request){
       
 
-        $emails = EmailInfo::all()->pluck('email')->toArray();
+        $emails = User::all()->pluck('email')->toArray();
         $emailContent=$request->email;
         
         $path=public_path('attachment');
-        $attachment= $request->file('attachment');
-        // dd($attachment);
-        $fileName=$attachment->getClientOriginalExtension();
-        // dd($fileName);
-        $attachment->move($path,$fileName);
-        $pathToFile=$path.'/'.$fileName;
+
+            $attachment= $request->file('attachment');
+            
+            // dd($attachment);
+            // $fileName=$attachment->getClientOriginalExtension();
+            // dd($fileName);   
+            $originalName=$attachment->getClientOriginalName();
+
+            // dd($originalName);
+            $attachment->move($path,$originalName);
+            $pathToFile=$path.'/'.$originalName;
+            // dd($pathToFile);
+       
+        
         
         
 
@@ -70,6 +78,17 @@ class uploadFile extends Controller
         }
         // dd($valid_emails);
         // send email
+        
+        // if($originalName){
+        //     foreach($valid_emails as $email){
+        //         VerifyEmail::dispatch($email, $emailContent, $pathToFile)->onQueue('emails');
+        //     }
+        // }else{
+        //     foreach($valid_emails as $email){
+        //         VerifyEmail::dispatch($email, $emailContent)->onQueue('emails');
+        //     }
+        // }
+        
         foreach($valid_emails as $email){
             $this->dispatch(new VerifyEmail($email,
             $emailContent,

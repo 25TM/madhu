@@ -27,7 +27,7 @@ class VerifyEmail implements ShouldQueue
     
     public function __construct($email,
     $emailContent,
-    $attachment
+    $attachment=null
     )
     {
         $this->email = $email;
@@ -41,6 +41,7 @@ class VerifyEmail implements ShouldQueue
      * @return void
      */
     public function handle(){
+        // if attachment is not null then send email with attachment
         Mail::to($this->email)->send(new sendBulkMail($this->email, $this->emailContent,$this->attachment));
     }
 

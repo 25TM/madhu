@@ -22,13 +22,13 @@ class sendBulkMail extends Mailable implements ShouldQueue
      */
     public function __construct($name, 
     $emailContent,
-    $attachment
+    $attachment=null
     )
     {
         $this->name = $name;
         $this->emailContent = $emailContent;
         // (isset($attachement)) ? $this->attachement = $attachement : $this->attachement = null;
-        $this->attachement = $attachment;
+        $this->attachment = $attachment;
     }
     
     
@@ -39,8 +39,12 @@ class sendBulkMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
+        $getAttachmentName=explode('/',$this->attachment);
+        // dd($getAttachmentName[1]);
+        
         $sendMail= $this->markdown('emails.welcome')
-        ->attach(public_path('attachment/').$this->attachement)->subject('Welcome to this proj')
+        ->attach(public_path('attachment/').$getAttachmentName[1])
+        ->subject('Welcome to this proj')
         ;
         return $sendMail; 
     }
