@@ -3,7 +3,7 @@ steps
 - create db called madhu
 - create .env
 - turn on xampp
-- enter mail details(I have used mailTrap)
+- enter mail details(I have used mailTrap you use yours)
 - in code type php artisan migrate
 - php artisan serve
 - php artisan queue:work
