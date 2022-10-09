@@ -6,6 +6,7 @@ steps
 - enter mail details(I have used mailTrap you use yours)
 - in code type php artisan migrate
 - php artisan serve
+- npm run dev
 - php artisan queue:work
 
 note when sending email pls send photo(not optional)
